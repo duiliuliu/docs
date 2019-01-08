@@ -2,7 +2,18 @@
 
   - [前言](README.md)
 
-* 开发中的问题
+- BrainIdeas
+
+  - [mama手工](BrainIdeas/mama手工.md)
+
+- issue
 
   - [Java 时间格式化](issue/Java时间格式化.md)
-  - [mybatis中#与$](issue/mybatis中%23与$.md)
+  - [mybatis 中#与\$](issue/mybatis中%23与$.md)
+
+- LeetCode
+
+  <!-- 1. [两个数相加]()
+  1. -->
+
+  -
