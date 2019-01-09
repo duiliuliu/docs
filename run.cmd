@@ -9,7 +9,7 @@ set command=%~1
 if %command% == serve (
     docsify serve
 ) else if %command% == BrainIdeas (
-    set dir = BrainIdeas
+    set dir=BrainIdeas
     goto CreateDocument
 REM ) else if %command% == issue (
 
@@ -32,8 +32,13 @@ REM ) else if %command% == LeetCode (
 )
 
 :CreateDocument
-REM type %dir%/Template.md > %dir%/%~2.md
-echo %dir%/%~2.md
+set file=%~2
+if "%file%"=="" (
+    echo create %dir%\%file%.md file successfully! please input the file name
+    goto End
+) 
+type %dir%\Template.md > %dir%\%file%.md
+echo create %dir%\%file%.md file successfully
 goto End
 
 :End
