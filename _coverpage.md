@@ -1,4 +1,4 @@
-![logo](image/yezi-.svg)
+![logo](_image/yezi-.svg)
 
 
 
