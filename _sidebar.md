@@ -4,7 +4,12 @@
 
 - BrainIdeas
 
-  - [mama手工](BrainIdeas/mama手工.md)
+  - [mama 手工](BrainIdeas/mama手工.md)
+
+- blog
+
+  - [大数据概述](blog/大数据概述.md)
+  - [Hadoop](blog/Hadoop.md)
 
 - issue
 
