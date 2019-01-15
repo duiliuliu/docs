@@ -1,6 +1,8 @@
 ## 编写 udf
 
 - idea 安装 MaxCompute Studio 插件
+  - 本地安装
+  - 插件库安装
 - 创建 project
   new -> project -> MaxCompute Studio
   ![创建project](./image/创建项目.png)
@@ -9,6 +11,8 @@
   ![创建module](./image/创建模块.png)
 - 编写 Java 类
   src/main/java 包上 new -> Maxcompute Java
+  - 类继承 UDF
+  - 主要方法 evaluate()
 
 ## 上传 udf
 
