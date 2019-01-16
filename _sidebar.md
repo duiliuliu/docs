@@ -15,7 +15,7 @@
 
   - [Java 时间格式化](issue/Java时间格式化.md)
   - [mybatis 中#与\$](issue/mybatis中%23与$.md)
-  - [UDF-gitlab-ci](issue/UDF-gitlab-ci.md)
+  - [gitlabci 自动化打包上传 UDF](issue/gitlabci自动化打包上传UDF.md)
 
 - LeetCode
 
