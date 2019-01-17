@@ -60,14 +60,22 @@
         - build
         - upload
 
+    before_script:
+        - MOUDLE_NAME=$(ls -R | grep '.*/src/' | awk '{FS="/"}  {print $2}' | sed -n '1,2p')
+        - UDF_LIST_STR=$(ls -R | grep '.*\.java')
+        - OLD_IFS="$IFS"
+        - IFS=" "
+        - UDF_LIST=($UDF_LIST_STR)
+        - IFS="$OLD_IFS"
+
     cache:
         paths:
-            - FirstModule/target/*.jar
+            - $MOUDLE_NAME/target/*.jar
 
     build:
         stage: build
         script:
-            - cd FirstModule
+            - cd $MOUDLE_NAME
             - mvn clean package
         only:
             - master
@@ -75,8 +83,9 @@
     upload:
         stage: upload
         script:
-            - odpscmd -e "add -f jar ./FirstModule/target/FirstModule-1.0-SNAPSHOT.jar"
-            - odpscmd -e "CREATE FUNCTION UDFGetJsonID AS com.qunhe.bigdata.UDFGetJsonID USING FirstModule-1.0-SNAPSHOT.jar"
+            - JAR_NAME=$(ls -R | grep '.*\.java')
+            - odpscmd -e "add jar ./$MOUDLE_NAME/target/$JAR_NAME -f"
+            - for var in ${UDF_LIST[@]}; do  odpscmd -e "CREATE FUNCTION $var AS $var USING $JAR_NAME"  echo $var; done
         only:
             - master
 
