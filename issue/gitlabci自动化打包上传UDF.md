@@ -56,20 +56,30 @@
 - 配置 gitlabci (配置 .gitlab-ci.yml)
 
   ```
-  stages:
-      - deploy
+    stages:
+        - build
+        - upload
 
-  deploy:
-      stage: deploy
-      script:
-          - git clone https://gitlab.qunhequnhe.com/exabrain/bigdata/customizedudf.git
-          - cd customizedUdf/FirstModule
-          - mvn clean install
-          - odpscmd
-          - add jar ./target/FirstModule-1.0-SNAPSHOT.jar
-          - CREATE FUNCTION UDFGetJsonID AS com.qunhe.bigdata.UDFGetJsonID USING FirstModule-1.0-SNAPSHOT.jar
-      only:
-          - master
+    cache:
+        paths:
+            - FirstModule/target/*.jar
+
+    build:
+        stage: build
+        script:
+            - cd FirstModule
+            - mvn clean package
+        only:
+            - master
+
+    upload:
+        stage: upload
+        script:
+            - odpscmd -e "add -f jar ./FirstModule/target/FirstModule-1.0-SNAPSHOT.jar"
+            - odpscmd -e "CREATE FUNCTION UDFGetJsonID AS com.qunhe.bigdata.UDFGetJsonID USING FirstModule-1.0-SNAPSHOT.jar"
+        only:
+            - master
+
   ```
 
 ## 相关文档
@@ -77,3 +87,4 @@
 - [JAVA UDF 开发](https://help.aliyun.com/document_detail/27811.html?spm=a2c4g.11186623.6.569.21e82343E8880r)
 - [odps 资源操作](https://help.aliyun.com/document_detail/27831.html)
 - [odps 函数操作](https://help.aliyun.com/document_detail/27832.html)
+- [使用.gitlab-ci.yml 配置作业](https://gitlab.qunhequnhe.com/help/ci/yaml/README)
