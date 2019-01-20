@@ -40,3 +40,15 @@
 ## 安装与使用
 
 ## 集群的部署与使用
+
+- Hadoop框架中最核心的设计是为海量数据提供存储的HDFS和对数据进行并行计算的Map Reduce
+- Map Reduce的作业主要包括：
+  - 从磁盘或网络中读取数据，即IO密集工作
+  - 计算数据，即CPU密集工作
+- Hadoop集群的整体性能取决于CPU、内存、网络以及存储之间的性能平衡。因此运营团队在选择机器配置时要针对不同的工作节点选择合适硬件类型
+- 一个基本的Hadoop集群中的节点主要有
+  - NameNode：负责协调集群中的数据存储
+  - DataNode: 存储被拆分的数据块
+  - JobTracker： 协调数据计算任务
+  - TaskTracker： 负责执行由JobTracker指派的任务
+  - SecondaryNameNode： 帮助NameNode手机文件系统运行的状态信息
