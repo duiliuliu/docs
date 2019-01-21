@@ -56,40 +56,58 @@
 - 配置 gitlabci (配置 .gitlab-ci.yml)
 
   ```
+    image: registry.qunhequnhe.com/datax/udf_upload
+
     stages:
-        - build
-        - upload
+    - build
+    - upload
 
     before_script:
-        - MOUDLE_NAME=$(ls -R | grep '.*/src/' | awk '{FS="/"}  {print $2}' | sed -n '1,2p')
-        - UDF_LIST_STR=$(ls -R | grep '.*\.java')
+    - source /etc/profile
+    - MOUDLE_NAME=$(ls -R | grep '.*/src/' | awk '{FS="/"}  {print $2}' | sed -n '1,2p')
+    - UDF_LIST_STR=$(ls -R | grep '.*\.java')
+    - UDF_LIST_STR=${UDF_LIST_STR//.java/}
+
+    cache:
+    paths:
+        - ./*/target/*.jar
+
+    build:
+    stage: build
+    tags:
+        - kube-runner
+    script:
+        - cd $MOUDLE_NAME
+        - mvn clean package
+    only:
+        - master
+
+    upload:
+    stage: upload
+    tags:
+        - kube-runner
+    script:
+        - JAR_NAME=$(ls -R | grep '.*\.jar')
+        - odpscmd -e "add jar $MOUDLE_NAME/target/$JAR_NAME -f"
         - OLD_IFS="$IFS"
         - IFS=" "
         - UDF_LIST=($UDF_LIST_STR)
         - IFS="$OLD_IFS"
-
-    cache:
-        paths:
-            - $MOUDLE_NAME/target/*.jar
-
-    build:
-        stage: build
-        script:
-            - cd $MOUDLE_NAME
-            - mvn clean package
-        only:
-            - master
-
-    upload:
-        stage: upload
-        script:
-            - JAR_NAME=$(ls -R | grep '.*\.java')
-            - odpscmd -e "add jar ./$MOUDLE_NAME/target/$JAR_NAME -f"
-            - for var in ${UDF_LIST[@]}; do  odpscmd -e "CREATE FUNCTION $var AS $var USING $JAR_NAME"  echo $var; done
-        only:
-            - master
+        - for var in ${UDF_LIST[@]}; do odpscmd -e "DROP FUNCTION $var" ; done
+        - for var in ${UDF_LIST[@]}; do odpscmd -e "CREATE FUNCTION $var AS $var USING $JAR_NAME" ; done
+    only:
+        - master
 
   ```
+
+## 遇到的问题
+
+- udf 编写
+- docker 镜像建立
+  - push 公共仓库直接 push；私有仓库需要先标记名称
+  - dockerfile 与 RUN commit
+- udf 上传
+  - 配置文件中非 script 作用域中，不能使用 shell 变量
 
 ## 相关文档
 
