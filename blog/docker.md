@@ -76,7 +76,7 @@ Docker 使用 Go 语言开发，基于 Linux 内核的 cgroup，namespace 以及
     镜像名称：默认DockerHUB，格式一般是 <域名/IP>[:端口号]
     仓库名：仓库名是两段式名称，即 <用户名>/<软件名>。对于 Docker Hub，如果不给出用户名，则默认为 library，也就是官方镜像
 
-    可以通过`docker iamge ls`或者`docker iamges`**查看镜像**
+    可以通过`docker image ls`或者`docker iamges`**查看镜像**
 
         列表包含了 仓库名、标签、镜像 ID、创建时间 以及 所占用的空间。
 
@@ -109,6 +109,14 @@ Docker 使用 Go 语言开发，基于 Linux 内核的 cgroup，namespace 以及
     - 从地址池配一个ip地址给容器
     - 执行用户制定的程序
     - 执行完毕容器被终止
+
+    - 参数
+      - -i
+        让容器的标准输入保持打开
+      - -t
+        让docker分配一个伪客户端(pseudo-tty)并绑定到容器的标准输入上
+      - -P
+      - -d
     
   - 启动已终止容器 docker start container
     可以通过`docker ps` **查看活动状态容器**
