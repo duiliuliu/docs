@@ -18,11 +18,11 @@
 
 - docker 中运行：
 
-  所以需要一个 docker 镜像，镜像中有 maven 环境，有 odps 客户端可以上传 udf，还有 git 客户端，可以拉取代码
+  所以需要一个 docker 镜像，镜像中有 maven 环境，有 odps 客户端可以上传 udf
 
   - maven 打包 udf 为可执行 jar
 
-    `mvn clean install`
+    `mvn clean package`
 
   - 然后使用 odps 客户端推送 jar 到 odps 上
 
@@ -56,7 +56,7 @@
 - 配置 gitlabci (配置 .gitlab-ci.yml)
 
   ```
-    image: registry.qunhequnhe.com/datax/udf_upload
+    image: registry.xxx.com/datax/udf_upload
 
     stages:
     - build
@@ -108,6 +108,7 @@
   - dockerfile 与 RUN commit
 - udf 上传
   - 配置文件中非 script 作用域中，不能使用 shell 变量
+  - 文件与函数会重复，所以文件需要覆盖，而函数没有覆盖选项，所以将函数先行删除在注册函数
 
 ## 相关文档
 
