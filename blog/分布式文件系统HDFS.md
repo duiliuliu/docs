@@ -55,6 +55,13 @@
       - EditLog 记录所有针对文件的创建、删除、重命名等操作
     - 名称节点记录了每个文件中各个块所在额数据节点的位置信息
     ![名称节点](./image/名称节点.png)
+
+    - **Fsimage**
+    - **EditLog**
+    - **secondaryNameNode**
+
+  - DataNode
+    - 
 ## 存储原理
 
 ## 编程实战
