@@ -22,6 +22,6 @@ MyBatis排序时使用order by 动态参数时需要注意，用$而不是\#
 如：
 `order by $user_id$`，如果传入的值是111,那么解析成sql时的值为`order by user_id`,  如果传入的值是id，则解析成的sql为`order by id`.
 
-#方式能够很大程度防止sql注入。
+\#方式能够很大程度防止sql注入。
 　　
 　　
