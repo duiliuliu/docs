@@ -132,3 +132,21 @@ public ThreadPoolExecutor(int corePoolSize,
   4. 如果运行的线程数量大于等于 maximumPoolSize，这时如果 workQueue 已经满了，则通过 handler 所指定的策略来处理任务；
 - 判断任务队列对象或者线程工厂对象或者拒绝处理对象是否为空
 - 赋值
+
+常用的方法：
+
+> execute()
+>
+> submit()
+>
+> shutdown()
+>
+> shutdownNow()
+
+execute()方法实际上是 Executor 中声明的方法，在 ThreadPoolExecutor 进行了具体的实现，这个方法是 ThreadPoolExecutor 的核心方法，通过这个方法可以向线程池提交一个任务，交由线程池去执行。
+
+submit()方法是在 ExecutorService 中声明的方法，在 AbstractExecutorService 就已经有了具体的实现，在 ThreadPoolExecutor 中并没有对其进行重写，这个方法也是用来向线程池提交任务的，但是它和 execute()方法不同，它能够返回任务执行的结果，去看 submit()方法的实现，会发现它实际上还是调用的 execute()方法，只不过它利用了 Future 来获取任务执行结果（Future 相关内容将在下一篇讲述）。
+
+shutdown()和 shutdownNow()是用来关闭线程池的。
+
+## springboot 配置线程池
