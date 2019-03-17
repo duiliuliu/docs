@@ -132,3 +132,48 @@ public ThreadPoolExecutor(int corePoolSize,
   4. 如果运行的线程数量大于等于 maximumPoolSize，这时如果 workQueue 已经满了，则通过 handler 所指定的策略来处理任务；
 - 判断任务队列对象或者线程工厂对象或者拒绝处理对象是否为空
 - 赋值
+
+## springboot 中线程池配置与使用
+
+springboot 中通常是使用@config 配置线程池，然后使用@Bean 注解将线程池添加到 spring 容器中
+
+```
+@Configuration
+public class ThreadPoolConfig{
+
+    @Bean
+    public ExecutorService getThreadPool(){
+        return newFixedThreadPool(5);
+    }
+}
+```
+
+对于线程池的使用，只需通过指定名称进行加载
+
+```
+@resource(name="getThreadPool")
+private ExecutorService executorService;
+
+public void todo(){
+    executorService.execute(()->{
+        System.out.println("线程池打印");
+        // 此处内部类引入外部变量需要为泪下按量或者使用final修饰的变量，所以若需要迭代输出，可通过内部类的方式进行输出
+    });
+}
+```
+
+**此处有另外的引入方式,即通过注解@Autowired**
+
+**注解@Autowired 与@resource 的区别是一个是 spring 提供，另一个是 Java 规范，作用类似，作用是？？**
+
+**@Configuration 的作用**
+
+**@Bean 的作用**
+
+另外，还有种配置是通过线程池实现异步操作，与此配置类似，同样是配置一个线程池，然后通过线程池去执行任务。
+所谓异步则是：你在餐厅带你了一份饭，然后告诉他们你去外面做其他事情去了,让他们饭做好了叫你(回调)
+而同步得分执行则是：你一直呆在餐厅中等待饭做好才去吃饭，中间时间段内并不能去做其他的事情
+
+**异步的作用与好处**
+
+这儿就需要使用注解 @Async 与@EnableAsync
