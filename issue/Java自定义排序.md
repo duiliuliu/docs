@@ -1,4 +1,3 @@
-做什么 怎么做 效果
 
 ## 前言
 
@@ -37,7 +36,6 @@ Colections.sort()的调用有两种：分别对应我们前面所述的两种排
 > integer,zero, or a positive integer as the first argument is less than, equal
 > to, or greater than the second.
 
-**对于排序结果，我们在排序规则内部使用 O1-O2 则是正序排序，反之为逆序排序**
 
 ## 实现效果
 
@@ -58,7 +56,6 @@ class SortObject implements Comparable {
     @Override
     public int compareTo(final Object o) {
         final SortObject obj = (SortObject) o;
-        // O1.compare(O2)中，使用O2比较O1,排序结果为逆序
         return obj.count - this.count;
     }
 
@@ -138,7 +135,6 @@ Collections.sort 中，此处我们使用 lambda 表达式
 
         System.out.println(sortObjectList);
         System.out.println("================sort==============");
-        // 这儿o1去比较o2，所以结果为正序，如果需要逆序，则o2-o1
         Collections.sort(sortObjectList, (o1, o2) -> o1.getCount() - o2.getCount());
         System.out.println(sortObjectList);
     }
