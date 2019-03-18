@@ -1,4 +1,3 @@
-
 ## 前言
 
 在很多场景中，我们需要对容器中的对象进行排序，那么我们可以有两种实现方法：
@@ -35,7 +34,6 @@ Colections.sort()的调用有两种：分别对应我们前面所述的两种排
 > 源码中解释： Compares its two arguments for order. Returns a negative
 > integer,zero, or a positive integer as the first argument is less than, equal
 > to, or greater than the second.
-
 
 ## 实现效果
 
@@ -205,3 +203,62 @@ private static void mergeSort(Object[] src,
 ```
 
 我们可以看到，排序算法用的是冒泡排序，不过当序列长度超过 7 时，则使用递归.
+
+## 实际应用
+
+在我们平时的应用中，应根据场景选择实现的接口，对于复杂排序逻辑，可以根据离散逻辑
+确定优先级进行排序
+
+例如：
+
+我们有行为 Behavior 对象：
+
+```
+public class Behavior {
+    private String name;
+    private String creator;
+    private BehaviorConfig behaviorConfig;
+    private Date created;
+    private BehaviorType behaviorType;
+}
+```
+
+现在我们从数据库中取出的对象需要进行排序，我们可以选择数据库排序然后取数据，或者
+取出数据后进行排序。(推荐数据库排序，如果取出数据在进行排序，则取数据时不可以分
+页取数，而是取全量数据进行排序，然后截取一页数据)
+
+那么对于排序的要求是，行为创建者为当前用户优先，其次按照时间倒序
+
+我们可以假设 情况 A: 行为对象为当前用户情况 B: 最新时间优先 ，对于时间的比较，我
+们可以用时间戳进行比较
+
+那么对于排序的两个行为对象 o1 与 o2，我们可以假设
+
+o1 满足情况 A 为 A1 o2 满足情况 A 为 A2
+
+o1 满足情况 B 为 B1 o2 满足情况 B 为 B2
+
+所以可能结果有：
+
+- A1 A2
+  - B 两种可能 B1 时间较新或者 B2 时间较新
+- !A1 A2
+- A1 !A2
+- !A1 !A2
+
+因此可以得出我们需要的结果：
+
+A1 和 A2 都为真或者都为假时， 我们去根据时间判断否则 若 A1 为真 ，返回 -1 ，反之
+则 A1 为假，A2 为真时， 返回 1
+
+代码如下：
+
+```
+if(A1==A2){
+    return B1 ? -1 ：1;
+}
+return A1 ? -1 : 1;
+``
+
+**假设行为类型有两种(复杂性为与简单行为)，我们需要复杂性为优先，当前用户优先级低，时间倒序呢**
+```
